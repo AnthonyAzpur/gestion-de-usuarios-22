@@ -12,7 +12,6 @@ import {
 } from 'ngx-treeview';
 import { isNil, remove, reverse } from 'lodash';
 
-
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
@@ -36,7 +35,6 @@ export class UsuariosComponent implements OnInit {
         {
           text: 'Element 2.2',
           value: '2.2'
-
         }
       ],
     },
@@ -49,29 +47,45 @@ export class UsuariosComponent implements OnInit {
     maxHeight: 400,
     hasDivider: false
   };
-  dataUsuarios: any;
-  datausuariopermisoapf:any;
-  datausuariospermiso_ins:any;
-  dataAccesosusuarios:any;
-  dataAplicacion:any;
+  dataUsuarios: any[] = [];  // Todos los usuarios
+  p_usu_apepat: string = '';  // Apellido paterno
+  p_usu_apemat: string = '';  // Apellido materno
+  p_usu_nombre: string = '';  // Nombre
+  p_usu_loging: string = '';  // Login
+
+  datausuariopermisoapf: any;
+  dataAplicacionPerfil: any;
+  datausuariospermiso_ins: any;
+  dataAccesosusuarios: any;
+  dataAplicacion: any;
+  dataaplicacionperfil:any;
   p_apl_id: number = 0;
   p_usu_id: number = 0;
-  selectedAplicacionId: number =0; 
-  
-  constructor(private appComponent: AppComponent, private service: UsersService, public utils: FunctionsUtils, private router: Router, private modalService: NgbModal) {
+  p_apf_id: number = 0;
+  p_prf_id: number = 0;
+  searchQuery: string = '';
+  selectedAplicacionId: number = 0;
+
+  constructor(
+    private appComponent: AppComponent,
+    private service: UsersService,
+    public utils: FunctionsUtils,
+    private router: Router,
+    private modalService: NgbModal
+  ) {
     this.appComponent.login = false;
   }
 
   ngOnInit() {
     this.listarUsuarios();
     this.listarApliaciones();
-
   }
+
   open(content: any) {
     this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title', // Esto es importante para la accesibilidad
-      size: 'lg', // Definimos el tamaño del modal (en este caso, grande)
-      backdrop: 'static' // Esto evita que el modal se cierre si se hace clic fuera de él
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+      backdrop: 'static'
     }).result.then(
       (result) => {
         console.log(`Modal cerrado con: ${result}`);
@@ -81,7 +95,6 @@ export class UsuariosComponent implements OnInit {
       }
     );
   }
-  
 
   removeItem(item: TreeviewItem): void {
     for (const tmpItem of this.items) {
@@ -100,18 +113,17 @@ export class UsuariosComponent implements OnInit {
     this.router.navigate(['usuarios/nuevo-usuario'], { queryParams: { sta_id: id } });
   }
 
-
   listarUsuarios() {
     let post = {
       p_usu_id: 0,
-      p_usu_apepat: '',
-      p_usu_apemat: '',
-      p_usu_nombre: '',
-      p_usu_loging: ''
+      p_usu_apepat: this.p_usu_apepat,
+      p_usu_apemat: this.p_usu_apemat,
+      p_usu_nombre: this.p_usu_nombre,
+      p_usu_loging: this.p_usu_loging
     };
+
     this.service.listarUsuario(post).subscribe({
       next: (data: any) => {
-        console.log(data);
         this.dataUsuarios = data;
         console.log(this.dataUsuarios);
       },
@@ -120,15 +132,21 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
+
+ 
+  
+
   listarUsuariopermisoapf(id: number) {
+    this.p_usu_id = id;  // Almacena el usu_id globalmente
+
     let post = {
       p_usu_id: id,
-    }
-    this.service.listarUsuariopermisoapf (post).subscribe({
+    };
+
+    this.service.listarUsuariopermisoapf(post).subscribe({
       next: (data: any) => {
-        console.log(data);
         this.datausuariopermisoapf = data;
-        console.log(this.datausuariopermisoapf,"usuarpicion permiso APF");
+        console.log(this.datausuariopermisoapf, "Permisos APF");
       },
       error: (error: any) => {
         console.log(error);
@@ -136,11 +154,35 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
+  listarApliacionPerfil() {
+    let post = {
+      p_apl_id: this.p_apl_id,
+      p_prf_id: 0  // Asignando el valor 0 a p_prf_id
+    };
+  
+    this.service.listarPerfilAplicacion(post).subscribe({
+      next: (data: any) => {
+        this.dataAplicacionPerfil = data;
+        console.log(data);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+  }
+  
+onAplicacionChange() {
+  if (this.p_apl_id > 0) {
+    this.listarApliacionPerfil();  // Actualiza los perfiles para la aplicación seleccionada
+  } else {
+    this.dataAplicacionPerfil = []; // Limpia los perfiles si no se ha seleccionado una aplicación
+  }
+}
+
   registrarPermisoUsuario_ins(id: number) {
     let post = {
       p_apf_id: id,
-      p_usu_id: id,
-
+      p_usu_id: this.p_usu_id,
     };
     this.service.registrarPermisoUsuario_ins(post).subscribe({
       next: (data: any) => {
@@ -152,15 +194,16 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
+
+
   listarAccesosUsuarios(id: number) {
-    // Asignar el id del usuario seleccionado a p_usu_id
     this.p_usu_id = id;
     console.log('Usuario seleccionado para gestionar accesos:', this.p_usu_id);
-  
+
     let post = {
-      p_usu_id: this.p_usu_id, // Usar p_usu_id ya asignado
+      p_usu_id: this.p_usu_id,
     };
-  
+
     this.service.listarusuarioaplicacion_optimizada_sel(post).subscribe({
       next: (data: any) => {
         console.log(data);
@@ -171,7 +214,7 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
-  
+
   listarApliaciones() {
     let post = {
       p_apl_id: this.p_apl_id,
@@ -179,7 +222,7 @@ export class UsuariosComponent implements OnInit {
     this.service.listarAplicacion(post).subscribe({
       next: (data: any) => {
         this.dataAplicacion = data;
-        console.log(this.dataAplicacion)
+        console.log(this.dataAplicacion);
       },
       error: (error: any) => {
         console.log(error);
@@ -188,17 +231,15 @@ export class UsuariosComponent implements OnInit {
   }
   
   registrarUsuarioApliacion() {
-    // Verificar si p_usu_id tiene un valor válido
     if (this.p_usu_id === 0 || !this.p_usu_id) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'El ID del usuario no es válido. Por favor selecciona un usuario.',
       });
-      return;  // Detiene la ejecución si el ID no es válido
+      return;
     }
-  
-    // Mostrar la alerta de confirmación
+
     Swal.fire({
       title: '¿Está seguro?',
       text: '¿Desea agregar acceso a esta aplicación web?',
@@ -207,36 +248,65 @@ export class UsuariosComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Crear el objeto con los parámetros necesarios para la API
         let post = {
-          p_usu_id: this.p_usu_id,  // ID del usuario
-          p_apl_id: this.selectedAplicacionId,  // ID de la aplicación seleccionada
+          p_usu_id: this.p_usu_id,
+          p_apl_id: this.selectedAplicacionId,
         };
-  
-        // Llamada al servicio para registrar el acceso
         this.service.registrarUsuarioAplicacion_ins(post).subscribe({
           next: (data: any) => {
-            // Mostrar mensaje de éxito
             Swal.fire('Acceso agregado', 'El acceso a la aplicación web se ha agregado correctamente.', 'success');
-            
-            // Actualizar la tabla de accesos
             this.listarAccesosUsuarios(this.p_usu_id);
           },
           error: (error: any) => {
             console.log(error);
-            // Mostrar mensaje de error en caso de fallo
             Swal.fire('Error', 'Hubo un error al agregar el acceso.', 'error');
           }
         });
       }
     });
   }
+
+  registrarPermisoUsuario() {
+    // Verificar que el ID del usuario sea válido
+    if (this.p_usu_id === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'El ID del usuario no es válido. Por favor selecciona un usuario.',
+      });
+      return;
+    }
+  
+    // Crear el objeto con los parámetros necesarios
+    let post = {
+      p_apf_id: this.p_apf_id,  // ID del perfil seleccionado
+      p_usu_id: this.p_usu_id   // ID del usuario
+    };
+  
+    // Llamar al servicio para registrar el permiso
+    this.service.registrarPermisoUsuario_ins(post).subscribe({
+      next: (data: any) => {
+        // Si la respuesta es exitosa, muestra el mensaje de éxito
+        Swal.fire('Permiso agregado', 'El permiso ha sido registrado correctamente.', 'success');
+        console.log('Respuesta del servicio:', data);
+  
+        // Llamar a la función para listar los permisos del usuario y actualizar la tabla
+        this.listarUsuariopermisoapf(this.p_usu_id);
+      },
+      error: (error: any) => {
+        // Si hay un error, muestra el mensaje de error
+        Swal.fire('Error', 'Hubo un problema al agregar el permiso.', 'error');
+        console.log('Error al registrar permiso:', error);
+      }
+    });
+  }
   
 
 
+  
   desactivar(id: number, status: boolean) {
     let swalText = '';
-    (status) ? swalText = '¿Esta seguro de deshabilitar?' : swalText = '¿Esta seguro de habilitar?';;
+    (status) ? swalText = '¿Esta seguro de deshabilitar?' : swalText = '¿Esta seguro de habilitar?';
 
     Swal.fire({
       icon: 'question',
@@ -253,18 +323,15 @@ export class UsuariosComponent implements OnInit {
         let data = {
           p_usu_id: id,
           p_usu_activo: (status) ? 0 : 1
-        }
-        console.log(data);
-
+        };
         this.service.actualizarEstadoUsuario(data).subscribe({
           next: (data: any) => {
             let result = data[0];
             if (result.error === 0) {
-              this.listarUsuarios()
+              this.listarUsuarios();
             }
           },
           error: (error: any) => {
-
             console.error(error);
           }
         });

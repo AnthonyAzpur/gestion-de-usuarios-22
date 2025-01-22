@@ -146,11 +146,24 @@ export class CrearUsuarioComponent implements OnInit {
   }
 
   validarBusquedaPersona() {
-
+    // Verificar si no se ha seleccionado el tipo de documento (p_tdi_id)
+    if (!this.p_tdi_id) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Debe seleccionar el tipo de documento.',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#3085d6'
+      });
+      return;  // Detener la ejecución si no se seleccionó el tipo de documento
+    }
+  
+    // Validar si el número de documento (DNI) no está vacío
     let postListar = {
       p_tdi_id: this.p_tdi_id,
       p_per_numdoi: this.p_usu_numdoi
-    }
+    };
+    
     if (this.p_usu_numdoi != '') {
       this.spinner.show();
       this.service.listarPersona(postListar).subscribe({
@@ -171,8 +184,8 @@ export class CrearUsuarioComponent implements OnInit {
         }
       });
     }
-
   }
+  
 
   guardarPersona() {
 
