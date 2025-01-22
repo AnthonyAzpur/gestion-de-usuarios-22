@@ -1,0 +1,115 @@
+Hola mundo<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Crear Nueva Aplicación</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inicio</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Aplicaciones</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Nueva aplicación</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card card-h-100">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="p_apl_descri" class="form-label">Nombre
+                                                                Aplicación<span class="text-danger"> (*)</span></label>
+                                                            <input type="text" id="p_apl_descri"
+                                                                class="form-control mb-3" aria-label="p_apl_descri"
+                                                                [(ngModel)]="p_apl_descri"
+                                                                formControlName="p_apl_descri">
+                                                            <div
+                                                                *ngIf="form.get('p_apl_descri')?.invalid && (form.get('p_apl_descri')?.dirty || form.get('p_apl_descri')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_apl_descri')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="p_apl_abrevi" class="form-label">Abreviatura
+                                                                Aplicación<span class="text-danger"> (*)</span></label>
+                                                            <input type="text" id="p_apl_abrevi"
+                                                                class="form-control mb-3" aria-label="p_apl_abrevi"
+                                                                [(ngModel)]="p_apl_abrevi"
+                                                                formControlName="p_apl_abrevi">
+                                                            <div
+                                                                *ngIf="form.get('p_apl_abrevi')?.invalid && (form.get('p_apl_abrevi')?.dirty || form.get('p_apl_abrevi')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_apl_abrevi')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="p_apl_siglas" class="form-label">Siglas<span
+                                                                    class="text-danger"> (*)</span></label>
+                                                            <input type="text" id="p_apl_siglas"
+                                                                class="form-control mb-3" aria-label="p_apl_siglas"
+                                                                [(ngModel)]="p_apl_siglas"
+                                                                formControlName="p_apl_siglas">
+                                                            <div
+                                                                *ngIf="form.get('p_apl_siglas')?.invalid && (form.get('p_apl_siglas')?.dirty || form.get('p_apl_siglas')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_apl_siglas')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="p_apl_enlace" class="form-label">Enlace<span
+                                                                    class="text-danger"> (*)</span></label>
+                                                            <input type="text" id="p_apl_enlace"
+                                                                class="form-control mb-3" aria-label="p_apl_enlace"
+                                                                [(ngModel)]="p_apl_enlace"
+                                                                formControlName="p_apl_enlace">
+                                                            <div
+                                                                *ngIf="form.get('p_apl_enlace')?.invalid && (form.get('p_apl_enlace')?.dirty || form.get('p_apl_enlace')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_apl_enlace')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 text-end">
+                                                    <button type="button" (click)="onSubmit()" [disabled]="form.invalid"
+                                                        class="btn btn-primary">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-square-spin"
+                    [fullScreen]="false">
+                    <p style="color: white"> Validando información </p>
+                </ngx-spinner>
+            </form>
+        </div>
+    </div>
+</div>
+<app-toast></app-toast>

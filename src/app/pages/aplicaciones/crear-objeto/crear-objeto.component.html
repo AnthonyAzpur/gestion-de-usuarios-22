@@ -1,0 +1,305 @@
+Hola mundo<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Crear Objetos</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inicio</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Aplicaciones</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Nuevo objeto</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card card-h-100">
+                                <div class="card-body">
+                                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                                        <div class="col-12">
+                                            <label class="visually-hidden"
+                                                for="inlineFormInputGroupUsername">Username</label>
+                                            <input type="text" class="form-control" id="inlineFormInputGroupUsername"
+                                                #obj_descri placeholder="Nombre de Menú">
+                                        </div><!--end col-->
+                                        <div class="col-12 d-flex flex-wrap gap-2">
+                                            <button type="button" (click)="agregarElemento(obj_descri.value)"
+                                                class="btn btn-success"><i class="bx bx-plus"></i> Añadir</button>
+                                            <button type="button" (click)="onSubmit()" class="btn btn-primary"><i
+                                                    class="bx bx-save"></i> Guardar</button>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                    <br>
+
+                                    <!-- Nesting Accordions -->
+                                    <div *ngFor="let data of array; index as i"
+                                        class="accordion nesting-accordion custom-accordionwithicon accordion-border-box mb-3"
+                                        id="accordionnesting">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" aria-expanded="false"
+                                                    [attr.data-bs-target]="'#nivelUno' + i">
+                                                    {{data.obj_descri}}
+                                                </button>
+                                            </h2>
+                                            <div [attr.id]="'nivelUno'+ i" class="accordion-collapse collapse">
+                                                <div class="accordion-body">
+                                                    <div class="col-lg-12 row">
+                                                        <div class="col-md-3">
+                                                            <input type="text" #inombre placeholder="Nombre"
+                                                                [value]="data.obj_descri"
+                                                                class="form-control form-control-sm"
+                                                                (blur)="actualizaNivelUno(inombre.value,'obj_descri',i)">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" #iicono placeholder="Icono"
+                                                                [value]="data.obj_iconos"
+                                                                class="form-control form-control-sm"
+                                                                (blur)="actualizaNivelUno(iicono.value,'obj_iconos',i)">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" #ienlace placeholder="Enlace"
+                                                                [value]="data.obj_enlace"
+                                                                class="form-control form-control-sm"
+                                                                (blur)="actualizaNivelUno(ienlace.value,'obj_enlace',i)">
+                                                        </div>
+                                                        <div class="col-md-2 d-flex flex-wrap gap-2">
+                                                            <button type="button" (click)="accionesNivelUno(i,true)"
+                                                                class="btn btn-sm btn-primary"><i
+                                                                    class="bx bx-plus"></i></button>
+                                                            <button type="button" (click)="accionesNivelUno(i,false)"
+                                                                class="btn btn-sm btn-danger"><i
+                                                                    class="bx bx-trash"></i></button>
+                                                            <button
+                                                                *ngIf="data.obj_nivhij.length === 0 && data.obj_id > 0"
+                                                                type="button"
+                                                                (click)="modalBotones(template,data.obj_id)"
+                                                                class="btn btn-sm btn-info"><i
+                                                                    class=" bx bx-menu"></i></button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div *ngFor="let dataHijo of data.obj_nivhij; index as x"
+                                                        class="accordion custom-accordionwithicon accordion-border-box mt-3">
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header">
+                                                                <button class="accordion-button collapsed" type="button"
+                                                                    data-bs-toggle="collapse"
+                                                                    [attr.data-bs-target]="'#nivelDos'+ i + x">
+                                                                    {{dataHijo.obj_descri}}
+                                                                </button>
+                                                            </h2>
+                                                            <div [attr.id]="'nivelDos'+ i + x"
+                                                                class="accordion-collapse collapse ">
+                                                                <div class="accordion-body">
+                                                                    <div class="col-lg-12 row">
+                                                                        <div class="col-md-3">
+                                                                            <input type="text" #xinombre
+                                                                                placeholder="Nombre"
+                                                                                [value]="dataHijo.obj_descri"
+                                                                                class="form-control form-control-sm"
+                                                                                (blur)="actualizaNivelDos(xinombre.value,'obj_descri',i,x)">
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <input type="text" #xiicono [value]=""
+                                                                                placeholder="Icono"
+                                                                                [value]="dataHijo.obj_iconos"
+                                                                                class="form-control form-control-sm"
+                                                                                (blur)="actualizaNivelDos(xiicono.value,'obj_iconos',i,x)">
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <input type="text" #xienlace
+                                                                                placeholder="Enlace"
+                                                                                [value]="dataHijo.obj_enlace"
+                                                                                class="form-control form-control-sm"
+                                                                                (blur)="actualizaNivelDos(xienlace.value,'obj_enlace',i,x)">
+                                                                        </div>
+                                                                        <div class="col-md-2 d-flex flex-wrap gap-2">
+                                                                            <button type="button"
+                                                                                (click)="accionesNivelDos(i,x,true)"
+                                                                                class="btn btn-sm btn-primary"><i
+                                                                                    class="bx bx-plus"></i></button>
+                                                                            <button type="button"
+                                                                                (click)="accionesNivelDos(i,x,false)"
+                                                                                class="btn btn-sm btn-danger"><i
+                                                                                    class="bx bx-trash"></i></button>
+                                                                            <button
+                                                                                *ngIf="dataHijo.obj_nivhij.length === 0 && dataHijo.obj_id > 0"
+                                                                                type="button"
+                                                                                (click)="modalBotones(template,dataHijo.obj_id)"
+                                                                                class="btn btn-sm btn-info"><i
+                                                                                    class=" bx bx-menu"></i></button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div *ngFor="let nivelDos of dataHijo.obj_nivhij; index as u"
+                                                                        class="accordion  custom-accordionwithicon accordion-border-box mt-3">
+                                                                        <div class="accordion-item">
+                                                                            <h2 class="accordion-header">
+                                                                                <button
+                                                                                    class="accordion-button collapsed"
+                                                                                    type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    [attr.data-bs-target]="'#nivelTres'+ i + x + u">
+                                                                                    {{nivelDos.obj_descri}}
+                                                                                </button>
+                                                                            </h2>
+                                                                            <div [attr.id]="'nivelTres' + i + x + u"
+                                                                                class="accordion-collapse collapse">
+                                                                                <div class="accordion-body">
+                                                                                    <div class="col-lg-12 row">
+                                                                                        <div class="col-md-3">
+                                                                                            <input type="text"
+                                                                                                #ixunombre
+                                                                                                placeholder="Nombre"
+                                                                                                [value]="nivelDos.obj_descri"
+                                                                                                class="form-control form-control-sm"
+                                                                                                (blur)="actualizaNivelTres(ixunombre.value,'obj_descri',i,x,u)">
+                                                                                        </div>
+                                                                                        <div class="col-md-3">
+                                                                                            <input type="text" #ixuicono
+                                                                                                [value]=""
+                                                                                                placeholder="Icono"
+                                                                                                [value]="nivelDos.obj_iconos"
+                                                                                                class="form-control form-control-sm"
+                                                                                                (blur)="actualizaNivelTres(ixuicono.value,'obj_iconos',i,x,u)">
+                                                                                        </div>
+                                                                                        <div class="col-md-3">
+                                                                                            <input type="text"
+                                                                                                #ixuenlace
+                                                                                                placeholder="Enlace"
+                                                                                                [value]="nivelDos.obj_enlace"
+                                                                                                class="form-control form-control-sm"
+                                                                                                (blur)="actualizaNivelTres(ixuenlace.value,'obj_enlace',i,x,u)">
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="col-md-2 d-flex flex-wrap gap-2">
+                                                                                            <button type="button"
+                                                                                                (click)="eliminarTercerNivel(i,x,u)"
+                                                                                                class="btn btn-sm btn-danger"><i
+                                                                                                    class="bx bx-trash"></i></button>
+                                                                                            <button
+                                                                                                *ngIf="nivelDos.obj_nivhij.length === 0 && nivelDos.obj_id > 0"
+                                                                                                type="button"
+                                                                                                (click)="modalBotones(template,nivelDos.obj_id)"
+                                                                                                class="btn btn-sm btn-info"><i
+                                                                                                    class=" bx bx-menu"></i></button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-square-spin"
+                [fullScreen]="false">
+                <p style="color: white"> Validando información </p>
+            </ngx-spinner>
+            <!-- </form> -->
+        </div>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="row">
+        <div class="col-lg-12">
+            <form [formGroup]="form" (ngSubmit)="guardarBotones()">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Crear botones</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-lg-12 row">
+                            <div class="col-md-3">
+                                <label for="p_bot_descri" class="form-label">Descripción<span class="text-danger">
+                                        (*)</span></label>
+                                <input type="text" id="p_bot_descri" class="form-control form-control-sm mb-3"
+                                    aria-label="p_bot_descri" formControlName="p_bot_descri" [(ngModel)]="p_bot_descri">
+                                <div
+                                    *ngIf="form.get('p_bot_descri')?.invalid && (form.get('p_bot_descri')?.dirty || form.get('p_bot_descri')?.touched)">
+                                    <div class="text-danger" *ngIf="form.get('p_bot_descri')?.hasError('required')">
+                                        Campo obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="p_bot_abrevi" class="form-label">Abreviatura<span class="text-danger">
+                                        (*)</span></label>
+                                <input type="text" id="p_bot_abrevi" class="form-control form-control-sm mb-3"
+                                    aria-label="p_bot_abrevi" formControlName="p_bot_abrevi" [(ngModel)]="p_bot_abrevi">
+                                <div
+                                    *ngIf="form.get('p_bot_abrevi')?.invalid && (form.get('p_bot_abrevi')?.dirty || form.get('p_bot_abrevi')?.touched)">
+                                    <div class="text-danger" *ngIf="form.get('p_bot_abrevi')?.hasError('required')">
+                                        Campo obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="p_bot_siglas" class="form-label">Siglas<span class="text-danger">
+                                        (*)</span></label>
+                                <input type="text" id="p_bot_siglas" class="form-control form-control-sm mb-3"
+                                    aria-label="p_bot_siglas" formControlName="p_bot_siglas" [(ngModel)]="p_bot_siglas">
+                                <div
+                                    *ngIf="form.get('p_bot_siglas')?.invalid && (form.get('p_bot_siglas')?.dirty || form.get('p_bot_siglas')?.touched)">
+                                    <div class="text-danger" *ngIf="form.get('p_bot_siglas')?.hasError('required')">
+                                        Campo obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex flex-wrap gap-2" style="margin-top: 1.9rem!important"><br>
+                                    <button [disabled]="form.invalid" class="btn btn-sm btn-primary">Guardar</button>
+                                    <button (click)="cerrarModalBotones()" type="button"
+                                        class="btn btn-sm btn-danger">Cancelar</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive mb-3">
+                            <table id="tablaBotones" class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center">N°</th>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="text-center">Abreviatura</th>
+                                        <th class="text-center">Siglas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of dataBotones;let idx = index" class="text-center">
+                                        <td>{{idx + 1}}</td>
+                                        <td>{{ data.bot_descri }}</td>
+                                        <td>{{ data.bot_abrevi }}</td>
+                                        <td>{{ data.bot_siglas }} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

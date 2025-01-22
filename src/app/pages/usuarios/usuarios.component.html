@@ -1,0 +1,215 @@
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Lista de Usuarios</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inicio</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Usuarios</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card card-h-100">
+                                <div class="card-body">
+                                    <ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand"
+                                        let-onCheckedChange="onCheckedChange">
+                                        <div class="form-inline row-item">
+                                            <i *ngIf="item.children" class="mr-1" (click)="onCollapseExpand()"
+                                                aria-hidden="true" [ngSwitch]="item.collapsed">
+                                                <svg *ngSwitchCase="true" width="0.8rem" height="0.8rem"
+                                                    viewBox="0 0 16 16" class="bi bi-caret-right-fill"
+                                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                </svg>
+                                                <svg *ngSwitchCase="false" width="0.8rem" height="0.8rem"
+                                                    viewBox="0 0 16 16" class="bi bi-caret-down-fill"
+                                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                </svg>
+                                            </i>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input"
+                                                    [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()"
+                                                    [disabled]="item.disabled" [indeterminate]="item.indeterminate" />
+                                                <label class="form-check-label"
+                                                    (click)="item.checked = !item.checked; onCheckedChange()">
+                                                    {{item.text}}
+                                                </label>
+                                                <label class="form-check-label ml-2">
+                                                    <i aria-hidden="true" title="Remove" (click)="removeItem(item)">
+                                                        <svg width="1rem" height="1rem" viewBox="0 0 16 16"
+                                                            class="bi bi-trash" fill="currentColor"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                                        </svg>
+                                                    </i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <ngx-treeview [config]="config" [itemTemplate]="itemTemplate" [items]="items">
+                                    </ngx-treeview>
+                                    <button [routerLink]="['/usuarios/crear-usuario']" type="button"
+                                        class="btn btn-soft-primary btn-label mb-3"><i
+                                            class="bx bx-user-plus label-icon fs-16"></i> Crear Usuario</button>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th scope="col" class="text-center">N°</th>
+                                                    <th scope="col" class="text-center">Nombre</th>
+                                                    <th scope="col" class="text-center">Usuario</th>
+                                                    <th scope="col" class="text-center">Fecha de Inicio</th>
+                                                    <th scope="col" class="text-center">Estado</th>
+                                                    <th scope="col" class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let data of dataUsuarios;let idx = index"
+                                                    class="text-center">
+                                                    <td>{{idx + 1}}</td>
+                                                    <td>{{ data.usu_nomcom }}</td>
+                                                    <td>{{ data.usu_loging }}</td>
+                                                    <td>{{ data.usu_fecini }}</td>
+                                                    <td class="{{utils.statusColor(data.usu_activo)}}">
+                                                        {{data.usu_estado }}</td>
+                                                    <td>
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <!-- Primer botón (Desactivar/Activar) -->
+                                                            <div class="col-auto">
+                                                                <a (click)="desactivar(data.usu_id, data.usu_activo)"
+                                                                    class="{{ utils.getEnableButtonClass(data.usu_activo) }} fs-15"
+                                                                    style="cursor: pointer;"
+                                                                    title="{{ utils.getEnableButtonText(data.usu_activo) }} Empresa">
+                                                                    <i class="bx bx-power-off"></i>
+                                                                </a>
+                                                            </div>
+                                                            <!-- Botón para abrir el modal de accesos -->
+                                                            <div class="col-auto">
+                                                                <button class="btn btn-primary btn-sm"
+                                                                    title="Gestionar Accesos"
+                                                                    (click)="listarAccesosUsuarios(data.usu_id); open(modalAccesos)">
+                                                                    <i class="bi bi-house-lock"></i>
+                                                                </button>
+                                                            </div>
+                                                            <!-- Segundo botón (Gestionar Permisos) -->
+                                                            <div class="col-auto">
+                                                                <button class="btn btn-primary btn-sm"
+                                                                    title="Gestionar Permisos"
+                                                                    (click)="listarUsuariopermisoapf(data.usu_id)"
+                                                                    (click)="open(permissionsModal)">
+                                                                    <i class="bi bi-key"></i>
+                                                                </button>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #permissionsModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Gestión de Permisos</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cerrar')"></button>
+
+    </div>
+    <div class="modal-body">
+        <!-- Aquí va la tabla de permisos -->
+        <!-- Tabla para mostrar los permisos -->
+        <table class="table">
+            <thead>
+                <tr>
+
+
+                    <th>Usuario</th>
+                    <th>Número de Ítem</th>
+
+                    <th>Aplicación WEB</th>
+                    <th>Descripción del Perfil</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let permiso of datausuariopermisoapf">
+
+
+                    <td>{{ permiso.usu_nomcom }}</td>
+                    <td>{{ permiso.pus_numitm }}</td>
+
+                    <td>{{ permiso.apl_descri }}</td>
+                    <td>{{ permiso.prf_descri }}</td>
+                    <td>{{ permiso.pus_activo ? 'Activo' : 'Inactivo' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancelar')">Cerrar</button>
+        <button type="button" class="btn btn-primary">aceptar</button>
+    </div>
+</ng-template>
+
+<!-- Modal Accesos -->
+<ng-template #modalAccesos let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Accesos del Usuario</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cerrar')"></button>
+    </div>
+    <div class="modal-body">
+      
+      <!-- Sección para seleccionar la aplicación -->
+      <div class="mb-3">
+        <label for="selectAplicacion" class="form-label">Seleccionar Aplicación</label>
+        <select class="form-select" id="selectAplicacion" [(ngModel)]="selectedAplicacionId">
+          <option *ngFor="let app of dataAplicacion" [value]="app.apl_id">{{ app.apl_descri }}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-primary" (click)="registrarUsuarioApliacion()">Guardar Acceso </button>
+      </div>
+
+      <!-- Tabla de accesos -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Aplicación</th>
+            <th>Usuario</th>
+            <th>Login</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let acceso of dataAccesosusuarios">
+            <td>{{ acceso.uap_id }}</td>
+            <td>{{ acceso.apl_descri }}</td>
+            <td>{{ acceso.usu_nomcom }}</td>
+            <td>{{ acceso.usu_loging }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+</ng-template>

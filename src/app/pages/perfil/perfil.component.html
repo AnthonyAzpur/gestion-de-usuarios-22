@@ -1,0 +1,66 @@
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Lista de Perfiles</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inicio</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Perfiles</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card card-h-100">
+                                <div class="card-body">
+                                    <button [routerLink]="['/perfil/crear-perfil']" type="button"
+                                        class="btn btn-soft-primary btn-label mb-3"><i
+                                            class="bx bx-user-plus label-icon fs-16"></i> Crear Perfil</button>
+                                    <div  class="table-responsive">
+                                        <table id="tablaPerfil" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                                            class="table table-hover align-middle mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="text-center">N°</th>
+                                                    <th class="text-center">Nombre</th>
+                                                    <th class="text-center">Siglas</th>
+                                                    <th class="text-center">Estado</th>
+                                                    <!-- <th class="text-center">Acciones</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let data of dataPerfil;let idx = index" class="text-center">
+                                                    <td>{{idx + 1}}</td>
+                                                    <td>{{ data.prf_descri }}</td>
+                                                    <td>{{ data.prf_abrevi }}</td>
+                                                    <td class="{{utils.statusColor(data.prf_activo)}}">
+                                                        {{data.prf_estado }}</td>
+                                                    <!-- <td>
+                                                        <div class="gap-3 flex-wrap text-center">
+                                                            <a (click)="desactivar(data.prf_id, data.prf_activo)"
+                                                                class="{{ utils.getEnableButtonClass(data.prf_activo) }} fs-15"
+                                                                style="cursor: pointer;"
+                                                                title="{{ utils.getEnableButtonText(data.prf_activo) }} Perfil"><i
+                                                                    class="bx bx-power-off"></i></a>
+                                                        </div>
+                                                    </td> -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

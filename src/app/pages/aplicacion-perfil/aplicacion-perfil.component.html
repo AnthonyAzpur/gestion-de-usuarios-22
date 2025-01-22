@@ -1,0 +1,73 @@
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Lista de Aplicaciones / Perfiles</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inicio</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Aplicación / Perfil</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card card-h-100">
+                        <div class="card-body">
+                            <div class="col-md-12 mt-3">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="p_apl_descri" class="form-label form-label-sm">Nombre
+                                                Aplicación</label>
+                                            <ng-select class="custom-ng-select" [items]="dataAplicacion"
+                                                [(ngModel)]="p_apl_id" placeholder="Seleccione" bindLabel="apl_descri"
+                                                bindValue="apl_id"></ng-select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button (click)="listarApliacionPerfil()" type="button"
+                                    class="btn btn-soft-primary btn-label mb-3"><i
+                                        class="bx bx-search-alt-2 label-icon fs-16"></i>Aplicar Filtro</button>
+                            </div>
+
+                            <div class="table-responsive mt-4">
+                                <table id="tablaAplicacion" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                                    class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col" class="text-center">N°</th>
+                                            <th scope="col" class="text-center">Aplicación</th>
+                                            <th scope="col" class="text-center">Perfil</th>
+                                            <th scope="col" class="text-center">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of dataAplicacionPerfil;let idx = index"
+                                            class="text-center">
+                                            <td>{{idx + 1}}</td>
+                                            <td>{{data.apl_descri}}</td>
+                                            <td>{{data.prf_descri}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-primary" (click)="asignarPermiso(data.apf_id)" title="Otorgar Permisos"><i
+                                                        class="bx bx-add-to-queue"></i></button>
+                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

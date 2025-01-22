@@ -1,0 +1,176 @@
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Crear Permisos</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inicio</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Aplicaciones</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Nuevo objeto</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
+            <!-- <button type="button" class="btn btn-primary" (click)="guardarPermisos()">Guardar</button> -->
+            <button class="btn btn-primary" (click)="open(content)">Nuevo Permiso</button>
+            <div class="row mt-4">
+                <div class="col-xl-12">
+                    <div class="card card-h-100">
+                        <div class="card-body">
+                            <!-- Nesting Accordions
+                            <div *ngFor="let data of dataObjetoBotones; index as i"
+                                class="accordion nesting-accordion custom-accordionwithicon accordion-border-box mb-3"
+                                id="accordionnesting">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" aria-expanded="false"
+                                            [attr.data-bs-target]="'#nivelUno' + i">
+                                            {{data.obj_descri}}
+                                        </button>
+                                    </h2>
+                                    <div [attr.id]="'nivelUno'+ i" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="col-lg-12 row" *ngIf="data.obj_botones != null">
+                                                <div class="col-md-3"
+                                                    *ngFor="let botonNivelUno of data.obj_botones; index as p">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input"
+                                                            (change)="actualizaBotonNivelUno(i,p)" type="checkbox"
+                                                            role="switch" [checked]="botonNivelUno.bot_activo">
+                                                        <label
+                                                            class="form-check-label">{{botonNivelUno.bot_descri}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div *ngFor="let dataHijo of data.obj_nivhij; index as x"
+                                                class="accordion custom-accordionwithicon accordion-border-box mt-3">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse"
+                                                            [attr.data-bs-target]="'#nivelDos'+ i + x">
+                                                            {{dataHijo.obj_descri}}
+                                                        </button>
+                                                    </h2>
+                                                    <div [attr.id]="'nivelDos'+ i + x"
+                                                        class="accordion-collapse collapse ">
+                                                        <div class="accordion-body">
+                                                            <div class="col-lg-12 row"
+                                                                *ngIf="dataHijo.obj_botones != null">
+                                                                <div class="col-md-3"
+                                                                    *ngFor="let botonNivelDos of dataHijo.obj_botones; index as p">
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            role="switch"
+                                                                            (change)="actualizaBotonNivelDos(i,x,p)"
+                                                                            [checked]="botonNivelDos.bot_activo">
+                                                                        <label
+                                                                            class="form-check-label">{{botonNivelDos.bot_descri}}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div *ngFor="let nivelDos of dataHijo.obj_nivhij; index as u"
+                                                                class="accordion  custom-accordionwithicon accordion-border-box mt-3">
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header">
+                                                                        <button class="accordion-button collapsed"
+                                                                            type="button" data-bs-toggle="collapse"
+                                                                            [attr.data-bs-target]="'#nivelTres'+ i + x + u">
+                                                                            {{nivelDos.obj_descri}}
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div [attr.id]="'nivelTres' + i + x + u"
+                                                                        class="accordion-collapse collapse">
+                                                                        <div class="accordion-body">
+                                                                            <div class="col-lg-12 row"
+                                                                                *ngIf="nivelDos.obj_botones != null">
+                                                                                <div class="col-md-3"
+                                                                                    *ngFor="let botonNivelTres of nivelDos.obj_botones; index as p">
+                                                                                    <div class="form-check form-switch">
+                                                                                        <input class="form-check-input"
+                                                                                            type="checkbox"
+                                                                                            (change)="actualizaBotonNivelTres(i,x,u,p)"
+                                                                                            role="switch"
+                                                                                            [checked]="botonNivelTres.bot_activo">
+                                                                                        <label
+                                                                                            class="form-check-label">{{botonNivelTres.bot_descri}}</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- Tabla para mostrar los usuarios -->
+                            <div class="row mt-4">
+                                <div class="col-xl-12">
+                                    <div class="card card-h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Listado de Usuarios</h5>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre Completo</th>
+                                                        <th>Login</th>
+                                                        <th>Estado</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Iterar sobre los usuarios y mostrar sus datos -->
+                                                    <tr *ngFor="let usuario of datausuariospermisoApf">
+                                                        <td>{{ usuario.usu_nomcom }}</td>
+                                                        <td>{{ usuario.usu_loging }}</td>
+                                                        <td>{{ usuario.pus_activo ? 'Activo' : 'Inactivo' }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-square-spin"
+                [fullScreen]="false">
+                <p style="color: white"> Validando información </p>
+            </ngx-spinner>
+            <!-- </form> -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Asignar Nuevo Permiso</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cerrar')"></button>
+    </div>
+    <div class="modal-body">
+      <!-- Aquí va el contenido de tu formulario o los campos para asignar el permiso -->
+      <p>Contenido para asignar un nuevo permiso aquí...</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cerrar')">Cerrar</button>
+      <button type="button" class="btn btn-primary" (click)="modal.close('guardar')">Guardar Permiso</button>
+    </div>
+  </ng-template>

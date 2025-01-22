@@ -1,0 +1,151 @@
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Crear Nuevo Usuario</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Inicio</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Usuarios</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Nuevo Usuario</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card card-h-100">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="p_ust_id" class="form-label">Tipo
+                                                                Documento<span class="text-danger"> (*)</span></label>
+                                                            <select id="p_tdi_id" class="form-select mb-3"
+                                                                aria-label="p_tdi_id" [(ngModel)]="p_tdi_id"
+                                                                formControlName="p_tdi_id">
+                                                                <option selected value="">Seleccionar</option>
+                                                                <option *ngFor="let data of tipoDocumento"
+                                                                    value="{{data.tdi_id}}">
+                                                                    {{data.tdi_abrevi}}</option>
+                                                            </select>
+                                                            <div
+                                                                *ngIf="form.get('p_tdi_id')?.invalid && (form.get('p_tdi_id')?.dirty || form.get('p_tdi_id')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_tdi_id')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="p_usu_numdoi" class="form-label">Número de
+                                                                Documento<span class="text-danger"> (*)</span></label>
+                                                            <input type="text" id="p_usu_numdoi"
+                                                                class="form-control mb-3" aria-label="p_usu_numdoi"
+                                                                [(ngModel)]="p_usu_numdoi"
+                                                                formControlName="p_usu_numdoi"
+                                                                (blur)="validarBusquedaPersona()">
+                                                            <div
+                                                                *ngIf="form.get('p_usu_numdoi')?.invalid && (form.get('p_usu_numdoi')?.dirty || form.get('p_usu_numdoi')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_usu_numdoi')?.hasError('required')">
+                                                                    Campo obligatorio
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                *ngIf="form.get('p_usu_numdoi')?.invalid && (form.get('p_usu_numdoi')?.dirty || form.get('p_usu_numdoi')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_usu_numdoi')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_usu_numdoi')?.hasError('pattern')">
+                                                                    Ingrese solo números</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="p_usu_nombre" class="form-label">Nombre <span
+                                                                    class="text-danger"> (*)</span></label>
+                                                            <input type="text" id="p_usu_nombre"
+                                                                class="form-control mb-3" aria-label="p_usu_nombre"
+                                                                [(ngModel)]="p_usu_nombre"
+                                                                formControlName="p_usu_nombre">
+                                                            <div
+                                                                *ngIf="form.get('p_usu_nombre')?.invalid && (form.get('p_usu_nombre')?.dirty || form.get('p_usu_nombre')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_usu_nombre')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="p_usu_apepat" class="form-label">Apellido
+                                                                Paterno<span class="text-danger"> (*)</span></label>
+                                                            <input type="text" id="p_usu_apepat"
+                                                                class="form-control mb-3" aria-label="p_usu_apepat"
+                                                                [(ngModel)]="p_usu_apepat"
+                                                                formControlName="p_usu_apepat">
+                                                            <div
+                                                                *ngIf="form.get('p_usu_apepat')?.invalid && (form.get('p_usu_apepat')?.dirty || form.get('p_usu_apepat')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_usu_apepat')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="p_usu_apemat" class="form-label">Apellido
+                                                                Materno <span class="text-danger"> (*)</span></label>
+                                                            <input type="text" id="p_usu_apemat"
+                                                                class="form-control mb-3" aria-label="p_usu_apemat"
+                                                                [(ngModel)]="p_usu_apemat"
+                                                                formControlName="p_usu_apemat">
+                                                            <div
+                                                                *ngIf="form.get('p_usu_apemat')?.invalid && (form.get('p_usu_apemat')?.dirty || form.get('p_usu_apemat')?.touched)">
+                                                                <div class="text-danger"
+                                                                    *ngIf="form.get('p_usu_apemat')?.hasError('required')">
+                                                                    Campo obligatorio</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 text-end">
+                                                    <button type="button" (click)="onSubmit()" [disabled]="form.invalid"
+                                                        class="btn btn-primary">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-square-spin"
+                    [fullScreen]="false">
+                    <p style="color: white"> Buscando información... </p>
+                </ngx-spinner>
+            </form>
+        </div>
+    </div>
+</div>
+<app-toast></app-toast>
