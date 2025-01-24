@@ -87,6 +87,7 @@ export class chatNovaWS extends Socket {
     ModalModule.forRoot(),
     TreeviewModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: false }),
+    
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

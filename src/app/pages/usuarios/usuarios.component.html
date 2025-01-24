@@ -12,6 +12,62 @@
                 </ol>
               </div>
             </div>
+            <button [routerLink]="['/usuarios/crear-usuario']" type="button"
+                                        class="btn btn-soft-primary btn-label mb-3"><i
+                                            class="bx bx-user-plus label-icon fs-16"></i> Crear Usuario</button>
+            
+            <!-- Buscador de usuarios en una Card -->
+<div class="search-form">
+  <div class="card mb-4 p-3"> <!-- Añadí un padding a la card con "p-3" -->
+    <div class="card-header">
+      <h5>Buscar Usuarios</h5>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="listarUsuarios()">
+        
+        <!-- Fila 1 con Apellido Paterno y Apellido Materno -->
+        <div class="row mb-3"> <!-- Margen abajo para separar filas -->
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="p_usu_apepat">Apellido Paterno</label>
+              <input type="text" class="form-control" id="p_usu_apepat" [(ngModel)]="p_usu_apepat" name="p_usu_apepat" placeholder="Ingresa tu apellido paterno" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="p_usu_apemat">Apellido Materno</label>
+              <input type="text" class="form-control" id="p_usu_apemat" [(ngModel)]="p_usu_apemat" name="p_usu_apemat" placeholder="Ingresa tu apellido materno" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 2 con Nombre y Login -->
+        <div class="row mb-3"> <!-- Margen abajo para separar filas -->
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="p_usu_nombre">Nombre</label>
+              <input type="text" class="form-control" id="p_usu_nombre" [(ngModel)]="p_usu_nombre" name="p_usu_nombre" placeholder="Ingresa tu nombre" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="p_usu_loging">Usuario</label>
+              <input type="text" class="form-control" id="p_usu_loging" [(ngModel)]="p_usu_loging" name="p_usu_loging" placeholder="Ingresa tu Usuario" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de Buscar -->
+        <div class="form-group text-center mt-3"> <!-- Añadí margen arriba con "mt-3" -->
+          <button type="submit" class="btn btn-primary">Buscar</button>
+          
+        </div>
+        
+      </form>
+    </div>
+  </div>
+</div>
+
           </div>
         </div>
   
@@ -21,53 +77,18 @@
               <div class="col-xl-12">
                 <div class="card card-h-100">
                   <div class="card-body">
-                    <!-- Buscador de usuarios en una Card -->
-                    <div class="search-form">
-                      <div class="card mb-4">
-                        <div class="card-header">
-                          <h5>Buscar Usuarios</h5>
-                        </div>
-                        <div class="card-body">
-                          <form (ngSubmit)="listarUsuarios()">
-                            <!-- Fila con todos los campos en una sola fila -->
-                            <div class="form-row mb-3">
-                              <!-- Apellido Paterno -->
-                              <div class="form-group col-12 col-md-3">
-                                <label for="p_usu_apepat">Apellido Paterno</label>
-                                <input type="text" id="p_usu_apepat" class="form-control" [(ngModel)]="p_usu_apepat" name="p_usu_apepat">
-                                
-                              </div>
+                    
   
-                              <!-- Apellido Materno -->
-                              <div class="form-group col-12 col-md-3">
-                                <label for="p_usu_apemat">Apellido Materno</label>
-                                <input type="text" id="p_usu_apemat" class="form-control" [(ngModel)]="p_usu_apemat" name="p_usu_apemat">
-                              </div>
-  
-                              <!-- Nombre -->
-                              <div class="form-group col-12 col-md-3">
-                                <label for="p_usu_nombre">Nombre</label>
-                                <input type="text" id="p_usu_nombre" class="form-control" [(ngModel)]="p_usu_nombre" name="p_usu_nombre">
-                              </div>
-  
-                              <!-- Login -->
-                              <div class="form-group col-12 col-md-3">
-                                <label for="p_usu_loging">Login</label>
-                                <input type="text" id="p_usu_loging" class="form-control" [(ngModel)]="p_usu_loging" name="p_usu_loging">
-                              </div>
-                            </div>
-  
-                            <!-- Botón de Buscar -->
-                            <div class="form-group text-center">
-                              <button type="submit" class="btn btn-primary">Buscar</button>
-                            </div>
-                          </form>
+                    <div class="table-responsive">
+                      <div class="d-flex justify-content-between mb-3">
+                        <div>
+                          <label for="rowsPerPage" class="me-2">Filas por página:</label>
+                          <select id="rowsPerPage" [(ngModel)]="itemsPerPage" (change)="onRowsPerPageChange()" class="form-select form-select-sm">
+                            <option *ngFor="let option of rowsPerPageOptions" [value]="option">{{ option }}</option>
+                          </select>
                         </div>
                       </div>
-                    </div>
-  
-                    <!-- Tabla de usuarios -->
-                    <div class="table-responsive">
+                    
                       <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
                           <tr>
@@ -80,8 +101,8 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let data of dataUsuarios; let idx = index" class="text-center">
-                            <td>{{ idx + 1 }}</td>
+                          <tr *ngFor="let data of dataUsuarios | paginate: { itemsPerPage: itemsPerPage, currentPage: p }; let idx = index" class="text-center">
+                            <td>{{ idx + 1 + (p - 1) * itemsPerPage }}</td> <!-- Adjust index based on current page and items per page -->
                             <td>{{ data.usu_nomcom }}</td>
                             <td>{{ data.usu_loging }}</td>
                             <td>{{ data.usu_fecini }}</td>
@@ -114,7 +135,13 @@
                           </tr>
                         </tbody>
                       </table>
+                    
+                      <!-- Pagination Controls -->
+                      <div class="pagination-container">
+                        <pagination-controls (pageChange)="p = $event" [maxSize]="5" [directionLinks]="true" [autoHide]="true"></pagination-controls>
+                      </div>
                     </div>
+                    
   
                   </div>
                 </div>

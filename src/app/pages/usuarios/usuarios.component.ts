@@ -66,6 +66,11 @@ export class UsuariosComponent implements OnInit {
   searchQuery: string = '';
   selectedAplicacionId: number = 0;
 
+
+  p: number = 1;  // Pagination page number
+  itemsPerPage: number = 20;  // Default items per page
+  rowsPerPageOptions: number[] = [5, 10, 50, 100];  // Options for rows per page
+
   constructor(
     private appComponent: AppComponent,
     private service: UsersService,
@@ -95,6 +100,11 @@ export class UsuariosComponent implements OnInit {
       }
     );
   }
+  onRowsPerPageChange() {
+    // Whenever the user changes the rows per page, reset the page number to 1
+    this.p = 1;
+  }
+
 
   removeItem(item: TreeviewItem): void {
     for (const tmpItem of this.items) {
@@ -194,7 +204,6 @@ onAplicacionChange() {
       }
     });
   }
-
 
   listarAccesosUsuarios(id: number) {
     this.p_usu_id = id;
